@@ -451,7 +451,6 @@ class UIComponents:
             df,
             gridOptions=gb.build(),
             update_mode=GridUpdateMode.SELECTION_CHANGED,
-            data_return_mode=DataReturnMode.AS_INPUT, 
             fit_columns_on_grid_load=True,
             height=500,
             key='series_aggrid'
@@ -459,20 +458,9 @@ class UIComponents:
         
         selected_rows_df = grid_response['selected_rows']
 
-        # --- INICIO DE LA CORRECCIÓN CLAVE ---
-        # Comprobación defensiva:
-        # 1. Asegura que no es None.
-        # 2. Asegura que es un DataFrame de Pandas.
-        # 3. Solo entonces, comprueba si está vacío.
-        if (selected_rows_df is not None and 
-            isinstance(selected_rows_df, pd.DataFrame) and 
-            not selected_rows_df.empty):
-            
-            # Si todas las condiciones se cumplen, sabemos que es seguro tratarlo como un DataFrame.
+        if selected_rows_df is not None and not selected_rows_df.empty:
             return selected_rows_df.to_dict('records')[0]
-        # --- FIN DE LA CORRECCIÓN CLAVE ---
 
-        # Si no hay nada seleccionado o el tipo no es el esperado, devolvemos None.
         return None
 
     @staticmethod
